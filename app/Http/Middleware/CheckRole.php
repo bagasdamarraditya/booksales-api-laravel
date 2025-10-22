@@ -10,18 +10,11 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 class CheckRole
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
         try {
-            // Ambil user dari token
             $user = JWTAuth::parseToken()->authenticate();
 
-            // Cek apakah peran user sesuai dengan parameter di middleware
             if (!in_array($user->role, $roles)) {
                 return response()->json([
                     'success' => false,
@@ -29,9 +22,7 @@ class CheckRole
                 ], 403);
             }
 
-            // Lanjut ke request berikutnya
             return $next($request);
-
         } catch (JWTException $e) {
             return response()->json([
                 'success' => false,
