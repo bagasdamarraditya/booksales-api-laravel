@@ -17,6 +17,7 @@ public function run(): void
         GenreSeeder::class,
         AuthorSeeder::class,
         BookSeeder::class,
+        UserSeeder::class
     ]);
 }
 

@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('books', function (Blueprint $table) {
@@ -17,20 +14,13 @@ return new class extends Migration
             $table->text('description');
             $table->integer('price');
             $table->integer('stock');
-            $table->string('cover_photo');
-            $table->unsignedBigInteger('genre_id');
-            $table->unsignedBigInteger('author_id');
+            $table->string('cover_photo')->nullable();
+            $table->foreignId('genre_id')->constrained('genres')->onDelete('cascade');
+            $table->foreignId('author_id')->constrained('authors')->onDelete('cascade');
             $table->timestamps();
-
-            // Relasi ke tabel genres dan authors
-            $table->foreign('genre_id')->references('id')->on('genres')->onDelete('cascade');
-            $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('books');
